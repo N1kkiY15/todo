@@ -1,0 +1,61 @@
+*,
+h1,
+h2,
+::after,
+::before { 
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body { 
+    background-color: rgb(155, 101, 48);
+    color: black;
+}
+
+.container { 
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    margin: 0 auto;
+    gap: 20px;
+    font-family: arial, sans-serif;
+    font-weight: 600;
+}
+
+h1 { 
+    font-family: Arial, sans-serif;
+    color: rgb(85, 142, 85);
+    font-size: 3rem;
+}
+
+.card-list__button { 
+    padding: 20px 40px;
+    border-radius: 15px;
+    cursor: pointer;
+    min-width: 200px;
+    background-color: rgb(166, 166, 195);
+    font-family: arial, sans-serif;
+    font-weight: 600;
+}
+
+.card-list__button:hover { 
+    background-color: rgb(59, 59, 101);
+    color: white;
+}
+
+.hidden { 
+    display: none;
+}
+
+.active { 
+    display: block;
+}
+
+.button_primary { 
+    padding: 5px;
+    border-radius: 5px;
+    cursor: pointer;
+
+}
