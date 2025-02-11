@@ -3,24 +3,47 @@
             <div class="card-list">
                 <AppCard 
                     v-for="todo in cards" 
-                    :todo="todo" 
                     :key="todo.id" 
+                    :todo="todo" 
                     @todo-toggle-checked="toggleChecked"
                     @delete-todo = 'deleteTodo'
-                />  <!--:todo="todo"  что это + @ -->
-            </div>
-            <button class="card-list__button" @click="emits()">Добавить задачу</button>
-            <FormCreate @create-todo="addTodo"/>
+                    @edit-card = 'localEditCard'
+                    @toggle-model = 'toggleModel'
+                    @toggle-model-edit = 'toggleModelEdit'
+                />  
+            </div>            
+            <button class="card-list__button" @click="toggleModel">Добавить задачу</button>
+            
+             <ModalWindow v-model="showModel">
+                <FormCreate @create-todo="addTodo"
+                @closeWindow="toggleModel"
+                />
+             </ModalWindow>
+
+             <ModalWindow v-model="showModelEdit">
+                <EditCard 
+                :cardToEdit="cardToEdit"
+                @close-edit="toggleModelEdit"
+                @edited-card="changeCard"
+                />
+             </ModalWindow>
 </template> 
    
 <script setup>
 import {ref} from 'vue';
 import AppCard from './AppCard.vue';
 import FormCreate from './FormCreate.vue';
+import ModalWindow from './ModalWindow.vue';
+import EditCard from './EditCard.vue';
 
-const emits = defineEmits(['todo-toggle-checked'])
+   const showModel = ref(false)
+   const showModelEdit = ref(false)
 
-    let FormStatus = ref(false)
+   let cardToEdit = ref({ 
+    id: '',
+    title: '',
+    status: '',
+   });
 
    const cards = ref([
     { 
@@ -50,6 +73,18 @@ const emits = defineEmits(['todo-toggle-checked'])
         todo.status = !todo.status
    }
 
+   const toggleModel = () => { 
+    showModel.value = !showModel.value;
+   }
+
+   const toggleModelEdit = () => { 
+    showModelEdit.value = !showModelEdit.value;
+   }
+
+   const localEditCard = (todo) => { 
+    cardToEdit = todo;
+   }
+
    const deleteTodo = (todoId) => { 
         cards.value = cards.value.filter((todo) => todo.id !== todoId)
    }
@@ -62,13 +97,20 @@ const emits = defineEmits(['todo-toggle-checked'])
     }
     cards.value.push(newTodo)
   }
+  
 
-
+  const changeCard = (localCopy) => { 
+    console.log(localCopy)
+        if (cards.value.find(card => card.id === localCopy.id)) {
+            const originalCardIndex = cards.value.findIndex((card)=> card.id === localCopy.id) 
+            cards.value[originalCardIndex] = { ... localCopy }
+        }
+  }
 </script>
    
 <style scoped>
 @import 'src\assets\global.css';
-                
+         
 .card-list { 
     display: flex;
     flex-direction: column;
