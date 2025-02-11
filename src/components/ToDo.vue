@@ -39,11 +39,7 @@ import EditCard from './EditCard.vue';
    const showModel = ref(false)
    const showModelEdit = ref(false)
 
-   let cardToEdit = ref({ 
-    id: '',
-    title: '',
-    status: '',
-   });
+   let cardToEdit = ref(); // изначально была прописан скелет объекта. 
 
    const cards = ref([
     { 

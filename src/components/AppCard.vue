@@ -20,7 +20,6 @@
 <script setup>
 
 const emits = defineEmits(['todo-toggle-checked', 'delete-todo', 'edit-card', 'toggle-model-edit'])
-
 const props = defineProps({ 
   todo: { 
     type: Object, 
