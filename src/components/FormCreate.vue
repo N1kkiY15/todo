@@ -1,30 +1,28 @@
 <template>
-        <div class="model__container">
+        <div class="modal__container">
             <h2>Добавь новую задачу!</h2>
             <form class="form">
-                <label> 
-                    <input 
-                    v-model = "value"
-                    class='form-input' 
-                    type="text" 
-                    placeholder="Например: покормить кошку"
-                    >
-                </label>
+                <input 
+                v-model = value
+                class='form-input' 
+                type="text" 
+                placeholder="Например: покормить кошку">
             </form>
-            <button class='card-list__button' 
-                @click.prevent="emits('create-todo', value)" 
-                @click="emits('closeWindow')" 
-                type="submit">Добавить
-            </button>
+            <ButtonPrimary :disabled=!value @click.prevent="emits('create-todo', value)" type="submit"> <!-- сделать тока один эмит-->
+                Добавить
+            </ButtonPrimary>
         </div>
 </template>
 
 <script setup>
+import {ref} from 'vue';
+import ButtonPrimary from './ButtonPrimary.vue';
 
+const value = ref('')
 const emits = defineEmits(['create-todo', 'closeWindow'])
 </script>
    
 <style scoped>
-@import 'src\assets\global.css';
+
 </style>
    

@@ -10,9 +10,18 @@ export default defineConfig({
     vue(),
     vueDevTools(),
   ],
+  /* css: {
+    preprocessorOptions: {
+      css: {
+        includePaths: ['./assets/global.css'], // Указываем папку с глобальными стилями
+      }
+    }
+  }, */
   resolve: {
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url))
     },
   },
-})
+}, 
+)
+

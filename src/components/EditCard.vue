@@ -1,5 +1,5 @@
 <template>
-  <div class="model__container">
+  <div class="modal__container">
     <h2>Редактирование задачи</h2>
     <h3>Название</h3>
     <form class="form">
@@ -21,29 +21,26 @@
         />
         <span class="pseudo-checkbox"></span>
     </label>
-    <button
-      class="card-list__button"
-      @click.prevent="editTitle;
-        emits('edited-card', localCopy);
-        emits('close-edit');"
-      type="submit">
+    <ButtonPrimary @click.prevent="editTitle; emits('edited-todo', localCopy)" type="submit"> <!-- сделать тока один эмит-->
       Изменить
-    </button>
+    </ButtonPrimary>
   </div>
 </template>
 
 <script setup>
 import { computed } from "vue";
-const emits = defineEmits(["close-edit", "edited-card", 'todo-toggle-checked']);
+import ButtonPrimary from './ButtonPrimary.vue';
+import CustomCheckbox from './CustomCheckbox.vue';
+const emits = defineEmits(["close-edit", "edited-todo", 'todo-toggle-checked']);
 
 const props = defineProps({
-  cardToEdit: {
+    todoToEdit: {
     type: Object,
     required: true,
   },
 });
 
-const localCopy = computed(() => ({ ...props.cardToEdit }));
+const localCopy = computed(() => ({ ...props.todoToEdit }));
 
 const editTitle = (value) => {
   localCopy.title = value;
@@ -52,5 +49,4 @@ const editTitle = (value) => {
 </script>
 
 <style scoped>
-@import "src\assets\global.css";
 </style>

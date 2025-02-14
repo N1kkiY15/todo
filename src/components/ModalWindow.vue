@@ -2,9 +2,7 @@
     <transition name="fade">
         <div v-if="model" class="blur-container">
             <div class="model">
-                <span>
-                    <button class="button button-close" @click="() => {model = false}"></button>
-                </span>
+                <button class="button button-close" @click="() => {model = false}"></button>
                 <slot></slot>
             </div>
         </div>
@@ -17,7 +15,6 @@ const model = defineModel() // ???
 </script>
 
 <style scoped>
-@import 'src\assets\global.css';
 
 .model { 
     display: flex;

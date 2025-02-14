@@ -1,33 +1,32 @@
 <template>
-            <h1>ToDo List</h1>
-            <div class="card-list">
-                <AppCard 
-                    v-for="todo in cards" 
-                    :key="todo.id" 
-                    :todo="todo" 
-                    @todo-toggle-checked="toggleChecked"
-                    @delete-todo = 'deleteTodo'
-                    @edit-card = 'localEditCard'
-                    @toggle-model = 'toggleModel'
-                    @toggle-model-edit = 'toggleModelEdit'
-                />  
-            </div>            
-            <button class="card-list__button" @click="toggleModel">Добавить задачу</button>
-            
-             <ModalWindow v-model="showModel">
-                <FormCreate @create-todo="addTodo"
-                @closeWindow="toggleModel"
-                />
-             </ModalWindow>
+    <h1>ToDo List</h1>
+        <transition-group name="list" tag="ul" class="card-list">
+            <AppCard 
+                v-for="todo in cards" 
+                :key="todo.id" 
+                :todo="todo" 
+                @todo-toggle-checked="toggleChecked"
+                @delete-todo="deleteTodo"
+                @edit-todo="editableTodo"
+                @toggle-modal="toggleModal"
+                @toggle-modal-edit="toggleEditModal"
+            />
+        </transition-group>
+    <ButtonPrimary @click="toggleModal">
+        Добавить задачу
+    </ButtonPrimary>
 
-             <ModalWindow v-model="showModelEdit">
-                <EditCard 
-                :cardToEdit="cardToEdit"
-                @close-edit="toggleModelEdit"
-                @edited-card="changeCard"
-                />
-             </ModalWindow>
-</template> 
+    <ModalWindow v-model="showModal">
+        <FormCreate @create-todo="addTodo"/>
+    </ModalWindow>
+
+    <ModalWindow v-model="showModalEdit">
+        <EditCard 
+            :todoToEdit="todoToEdit"
+            @edited-todo="changeTodo"
+        />
+    </ModalWindow>
+</template>
    
 <script setup>
 import {ref} from 'vue';
@@ -35,11 +34,12 @@ import AppCard from './AppCard.vue';
 import FormCreate from './FormCreate.vue';
 import ModalWindow from './ModalWindow.vue';
 import EditCard from './EditCard.vue';
+import ButtonPrimary from './ButtonPrimary.vue';
 
-   const showModel = ref(false)
-   const showModelEdit = ref(false)
+   const showModal = ref(false)
+   const showModalEdit = ref(false)
 
-   let cardToEdit = ref(); // изначально была прописан скелет объекта. 
+   let todoToEdit = ref(); // изначально была прописан скелет объекта. 
 
    const cards = ref([
     { 
@@ -69,16 +69,17 @@ import EditCard from './EditCard.vue';
         todo.status = !todo.status
    }
 
-   const toggleModel = () => { 
-    showModel.value = !showModel.value;
+   const toggleModal = (todo) => { 
+    showModal.value = !showModal.value;
    }
 
-   const toggleModelEdit = () => { 
-    showModelEdit.value = !showModelEdit.value;
+   const toggleEditModal = () => { 
+    showModalEdit.value = !showModalEdit.value;
    }
 
-   const localEditCard = (todo) => { 
-    cardToEdit = todo;
+   const editableTodo = (todo) => { 
+    todoToEdit.value = todo;
+    toggleEditModal()
    }
 
    const deleteTodo = (todoId) => { 
@@ -92,20 +93,21 @@ import EditCard from './EditCard.vue';
         status: false,
     }
     cards.value.push(newTodo)
+    toggleModal()
   }
   
 
-  const changeCard = (localCopy) => { 
-    console.log(localCopy)
-        if (cards.value.find(card => card.id === localCopy.id)) {
-            const originalCardIndex = cards.value.findIndex((card)=> card.id === localCopy.id) 
+  const changeTodo = (localCopy) => { 
+ const originalCardIndex = cards.value.findIndex(card => card.id === localCopy.id)
+        if (originalCardIndex !== -1) {       
             cards.value[originalCardIndex] = { ... localCopy }
         }
+        toggleEditModal()
   }
+  
 </script>
    
 <style scoped>
-@import 'src\assets\global.css';
          
 .card-list { 
     display: flex;
@@ -117,5 +119,16 @@ import EditCard from './EditCard.vue';
     width: 50%;
     border-radius: 20px;
 }
+
+.list-enter-active,
+.list-leave-active {
+    transition: all 0.5s ease;
+}
+.list-enter-from,
+.list-leave-to {
+    opacity: 0;
+    transform: translateX(60px);
+}
+
 </style>
    

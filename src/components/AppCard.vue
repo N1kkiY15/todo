@@ -8,18 +8,19 @@
           @change="emits('todo-toggle-checked', todo)"
         />
         <span class="pseudo-checkbox"></span>
-      </label>
+    </label>
     <p>{{ todo.title }}</p>
     <div class="card-blocks">
-      <button class='button button-edit' @click="emits('edit-card', todo); emits('toggle-model-edit')"></button>
+      <button class='button button-edit' @click="emits('edit-todo', todo)"></button>
       <button class='button button-close' @click="emits('delete-todo', todo.id)"></button>
     </div>
   </div>
 </template>
 
 <script setup>
+import CustomCheckbox from './CustomCheckbox.vue';
 
-const emits = defineEmits(['todo-toggle-checked', 'delete-todo', 'edit-card', 'toggle-model-edit'])
+const emits = defineEmits(['todo-toggle-checked', 'delete-todo', 'edit-todo', 'toggle-modal-edit'])
 const props = defineProps({ 
   todo: { 
     type: Object, 
@@ -27,11 +28,10 @@ const props = defineProps({
   },
 })
 
+
 </script>
 
 <style scoped>
-
-@import 'src\assets\global.css';
 
 .card { 
   display: flex;
@@ -45,9 +45,22 @@ const props = defineProps({
   transition: 0.5s;
 }
 
+.card p { 
+  display: flex;
+  max-width: 300px;
+  flex-wrap: wrap;
+  overflow: hidden;
+}
+
 .card-blocks { 
   display: flex;
   align-items: center;
   gap: 20px;
 }
+
+.checked { 
+  background-color: rgb(143, 228, 142);
+  transition: 0.5s;
+}
+
 </style>

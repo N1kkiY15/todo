@@ -10,5 +10,4 @@
 </script>
 
 <style scoped>
-@import './assets/global.css';
 </style>
