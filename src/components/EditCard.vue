@@ -2,51 +2,39 @@
   <div class="modal__container">
     <h2>Редактирование задачи</h2>
     <h3>Название</h3>
-    <form class="form">
-      <label>
-        <input
-          class="form-input"
-          type="text"
-          placeholder="Например: покормить кошку"
-          v-model="localCopy.title"
-        />
-      </label>
+    <form class="form" @submit.prevent="editTitle">
+      <BaseInput v-model="localCopy.title" />
+      <h3>Статус</h3>
+      <baseCheckbox v-model="localCopy.status" />
+      <p v-if="localCopy.status">Выполнено</p>
+      <p v-else>Не выполнено((</p>
+      <BaseButton :disabled="!localCopy.title" type="submit">Изменить</BaseButton>
     </form>
-    <h3>Статус</h3>
-    <label>
-        <input 
-          class="visually-hidden" 
-          type="checkbox" 
-          v-model="localCopy.status"
-        />
-        <span class="pseudo-checkbox"></span>
-    </label>
-    <ButtonPrimary @click.prevent="editTitle; emits('edited-todo', localCopy)" type="submit"> <!-- сделать тока один эмит-->
-      Изменить
-    </ButtonPrimary>
   </div>
 </template>
 
 <script setup>
-import { computed } from "vue";
-import ButtonPrimary from './ButtonPrimary.vue';
-import CustomCheckbox from './CustomCheckbox.vue';
-const emits = defineEmits(["close-edit", "edited-todo", 'todo-toggle-checked']);
+import { toRef, ref, computed } from "vue";
+import BaseButton from "./BaseButton.vue";
+import BaseInput from "./BaseInput.vue";
+import baseCheckbox from "./BaseCheckbox.vue";
+const emits = defineEmits(["close-edit", "edited-todo"]);
 
 const props = defineProps({
-    todoToEdit: {
+  todoToEdit: {
     type: Object,
     required: true,
   },
 });
 
-const localCopy = computed(() => ({ ...props.todoToEdit }));
+// const localCopy = computed(() => ({ ...props.todoToEdit }));
 
-const editTitle = (value) => {
-  localCopy.title = value;
+const local = JSON.parse(JSON.stringify(props.todoToEdit));
+
+const localCopy = toRef(local);
+console.log(localCopy);
+
+const editTitle = () => {
+  emits("edited-todo", localCopy.value);
 };
-
 </script>
-
-<style scoped>
-</style>
