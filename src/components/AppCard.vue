@@ -53,6 +53,8 @@ const props = defineProps({
 
 .checked {
   background-color: rgb(143, 228, 142);
-  transition: 0.5s;
+  color: yellow;
+  border: 1x solid white;
+  transition: 0.7s;
 }
 </style>
