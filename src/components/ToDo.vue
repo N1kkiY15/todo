@@ -24,7 +24,7 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
+import { onMounted, ref } from "vue";
 import AppCard from "./AppCard.vue";
 import CreateCard from "./CreateCard.vue";
 import ModalWindow from "./ModalWindow.vue";
@@ -34,7 +34,20 @@ import BaseButton from "./BaseButton.vue";
 const showModal = ref(false);
 const showModalEdit = ref(false);
 
-let todoToEdit = ref(); // изначально была прописан скелет объекта.
+let todoToEdit = ref();
+
+// onMounted(async () => {
+//   const response = await fetch('https://jsonplaceholder.typicode.com/todos');
+//   const data = await response.json();
+
+//   cards.value = data.map((todo) => {
+//     return {
+//       id: todo.id,
+//       title: todo.title,
+//       status: todo.completed
+//     }
+//   });
+// });
 
 const cards = ref([
   {
@@ -58,6 +71,8 @@ const cards = ref([
     status: false,
   },
 ]);
+
+// defineExpose({ cards }); // ?????????????????????????????????????????????????
 
 const toggleModal = (todo) => {
   showModal.value = !showModal.value;

@@ -1,7 +1,7 @@
 <template>
   <div class="card" :class="{ checked: todo.status }">
     <BaseCheckbox v-model="todo.status" />
-    <p>{{ todo.title }}</p>
+     <router-link :to="`/todo/${todo.id}`"><p>{{ todo.title }}</p></router-link> <!-- так можно? -->
     <div class="card-blocks">
       <button
         class="button button-edit"
