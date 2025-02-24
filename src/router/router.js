@@ -1,4 +1,8 @@
 import { createRouter, createWebHistory } from "vue-router";
+import ToDoView from "@/views/ToDoView.vue";
+import ToDoDetails from "@/views/ToDoDetails.vue";
+import SecretMainView from "@/views/SecretMainView.vue";
+import StoreView from "@/views/StoreView.vue";
 
 const router = createRouter({
   history: createWebHistory("/"),
@@ -6,19 +10,22 @@ const router = createRouter({
     {
       name: "todo",
       path: "/todo",
-      component: () => import("@/views/ToDoView.vue"),
-      children: [
-        {
-          name: "todocard",
-          path: ":id",
-          component: () => import("@/views/ToDoDetails.vue"),
-        },
-      ],
+      component: ToDoView,
+    },
+    {
+      name: "todoDetail",
+      path: "/todo/:id",
+      component: ToDoDetails,
     },
     {
       name: "main",
       path: "/main",
-      component: () => import("@/views/SecretMainView.vue"),
+      component: SecretMainView,
+    },
+    {
+      name: "store",
+      path: "/store",
+      component: StoreView,
     },
   ],
 });

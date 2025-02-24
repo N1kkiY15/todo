@@ -36,43 +36,41 @@ const showModalEdit = ref(false);
 
 let todoToEdit = ref();
 
-// onMounted(async () => {
-//   const response = await fetch('https://jsonplaceholder.typicode.com/todos');
-//   const data = await response.json();
+onMounted(async () => {
+  const response = await fetch('https://jsonplaceholder.typicode.com/todos');
+  const data = await response.json();
 
-//   cards.value = data.map((todo) => {
-//     return {
-//       id: todo.id,
-//       title: todo.title,
-//       status: todo.completed
-//     }
-//   });
-// });
+  cards.value = data.slice(0, 10).map((todo) => {
+    return {
+      id: todo.id,
+      title: todo.title,
+      status: todo.completed
+    }
+  });
+});
 
 const cards = ref([
-  {
-    id: 1,
-    title: "Помыть посуду",
-    status: false,
-  },
-  {
-    id: 2,
-    title: "Сходить к зубному",
-    status: false,
-  },
-  {
-    id: 3,
-    title: "Покормить кошку",
-    status: false,
-  },
-  {
-    id: 4,
-    title: "Выбросить мусор",
-    status: false,
-  },
+  // {
+  //   id: 1,
+  //   title: "Помыть посуду",
+  //   status: false,
+  // },
+  // {
+  //   id: 2,
+  //   title: "Сходить к зубному",
+  //   status: false,
+  // },
+  // {
+  //   id: 3,
+  //   title: "Покормить кошку",
+  //   status: false,
+  // },
+  // {
+  //   id: 4,
+  //   title: "Выбросить мусор",
+  //   status: false,
+  // },
 ]);
-
-// defineExpose({ cards }); // ?????????????????????????????????????????????????
 
 const toggleModal = (todo) => {
   showModal.value = !showModal.value;

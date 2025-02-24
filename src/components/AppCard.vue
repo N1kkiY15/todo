@@ -29,6 +29,7 @@ const props = defineProps({
 .card {
   display: flex;
   flex-direction: row;
+  gap: 20px;
   justify-content: space-between;
   align-items: center;
   width: 100%;

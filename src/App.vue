@@ -4,9 +4,12 @@
       <div class="header__container">
         <router-link to="/todo" class="header__link">Список</router-link>
         <router-link :to="{ name: 'main' }" class="header__link">Секрет</router-link>
+        <router-link :to="{ name: 'store' }" class="header__link">Store</router-link>
       </div>
     </header>
+
     <RouterView />
+
     <footer class="footer">
       <p>Pizdec Interesno</p>
       <p>All rights reserved</p>
